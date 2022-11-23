@@ -5,15 +5,15 @@ import pandas as pd
 df = pd.read_excel(r'SmallData.xlsx')
 
 # filter the data percentage to present
-df = df.sample(frac=0.5)
+df = df.sample(frac=1)
 
 print(df)
 
 fig = px.scatter_mapbox(df,
                         lon=df['Lon'],
                         lat=df['Lat'],
-                        zoom=5,
-                        color=df['Whale_Type'],
+                        zoom=3,
+                        color=df['Species_Type'],
                         size=df['Population_Density'],
                         width=1200,
                         height=900,
