@@ -1,5 +1,6 @@
 import plotly.express as px
 import pandas as pd
+import plotly.graph_objects as go
 
 # Read data file
 df = pd.read_excel(r'SmallData.xlsx')
@@ -7,7 +8,8 @@ df = pd.read_excel(r'SmallData.xlsx')
 # filter the data percentage to present
 df = df.sample(frac=1)
 
-print(df)
+# print(df1)
+
 
 fig = px.scatter_mapbox(df,
                         lon=df['Lon'],
@@ -18,6 +20,7 @@ fig = px.scatter_mapbox(df,
                         width=1200,
                         height=900,
                         title='Blue Ship Routing')
+
 fig.update_layout(mapbox_style="open-street-map")
 fig.update_layout(margin={"r": 0, "t": 50, "l": 0, "b": 10})
 
