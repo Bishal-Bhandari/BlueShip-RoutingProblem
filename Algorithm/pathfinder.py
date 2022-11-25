@@ -1,6 +1,9 @@
 import pandas as pd
 
 
+def init():
+
+
 def fitness():
     return True
 
