@@ -1,28 +1,81 @@
-import pandas as pd
+import matplotlib.pyplot as plt
+import random
+
+Check_Condition = True
+# Plotting field
+sfield_x = [-10]
+sfield_y = [-10]
+efield_x = [15]
+efield_y = [15]
+
+# Initial point
+start_x = []
+start_y = []
+
+# Goal point
+end_x = [8]
+end_y = [8]
+
+# Obstacles
+obs_x = [-5, 1, 8, 5, 6, 8, 4, 5, 7, 8, 7, 2, 2, 4, 6]
+obs_y = [-5, 5, 8, 4, 2, 3, 7, 2, 2, 8, 1, 8, 7, 3, 4]
+
+# plotting the points
+hold_x = []
+hold_y = []
 
 
-def init():
+def randomize():
+    return random.choice([1, -1])
 
 
-def fitness():
-    return True
+def initialization():
+    global Check_Condition
+    i, j = 0, 0
+
+    while Check_Condition:
+        start_x.append(i)
+        start_y.append(j)
+        for idx in range(len(obs_x)):
+            if start_x[i] == obs_x[idx] or start_y[j] == obs_y[idx]:
+                random_val = randomize()
+                if random_val == 1:
+                    start_x[i] = start_x[j] + random_val
+                else:
+                    start_y[i] = start_y[j] + random_val
+            else:
+                hold_x.append(start_x[i])
+                hold_y.append(start_y[j])
+                break
+        if start_x[i] >= end_x[0] or start_y[j] >= end_y[0]:
+            Check_Condition = False
+            return hold_x, hold_y
+        i = i + 1
+        j = j + 1
 
 
-def crossover(a, b):
-    return a
+def plot_grid():
+    hold_x, hold_y = initialization()
+    print(f'x,{hold_x}')
+    print(f'y,{hold_y}')
+    # Max field plot
+    plt.plot(sfield_x, sfield_y, c='white')
+    plt.plot(efield_x, efield_y, c='white')
+    plt.plot(hold_x, hold_y, c='black')
+
+    # Plotting points for scatter
+    plt.scatter(obs_x, obs_y, label="stars", color=['red'])
+
+    # naming the x axis
+    plt.xlabel('x - axis')
+    # naming the y axis
+    plt.ylabel('y - axis')
+
+    # giving a title to my graph
+    plt.title('Blue Ship Route')
+
+    # Display
+    plt.show()
 
 
-def mutation(member):
-    return member
-
-
-def create_new_member(member):
-    return member
-
-
-def next_gen(population):
-    return population
-
-
-def main(number_of_iteration):
-    return True
+plot_grid()
