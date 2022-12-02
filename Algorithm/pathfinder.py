@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 import random
 
 # Plotting field
-sfield_x = [-10]
-sfield_y = [-10]
-efield_x = [15]
-efield_y = [15]
+sfield_x = [-30]
+sfield_y = [-30]
+efield_x = [30]
+efield_y = [30]
 
 # Goal point for chromosomes
-end_x = [5]
-end_y = [10]
+end_x = [12]
+end_y = [5]
 
 # Obstacles
 obs_x = [-5, 1, 3, 2, 2.5, 3, 4, 8, 4, 5, 6, 8, 4, 8, 5, 7, 8, 7, 2, 2, 4, 6, 9]
@@ -25,7 +25,7 @@ for_multi_chromosome_x = []
 for_multi_chromosome_y = []
 
 # Value for iteration
-val_iteration = 10
+val_iteration = 5
 
 
 # Random value generator
@@ -139,18 +139,22 @@ def gene_computation():
 
 def plot_grid():
     Cont_run = True
-    i = 0
+    i = 1
     while Cont_run:
         hold_xx, hold_yy = gene_computation()
-        for_multi_chromosome_x.append(hold_xx)
-        for_multi_chromosome_y.append(hold_yy)
+        for_multi_chromosome_x.append(hold_xx.copy())
+        for_multi_chromosome_y.append(hold_yy.copy())
         if i == val_iteration:
             Cont_run = False
         else:
             i += 1
+            del hold_xx[:]
+            del hold_yy[:]
 
     # fitness_value = fitness_fun(hold_x, hold_y)
+
     print(f'ForX-{for_multi_chromosome_x},\n ForY--{for_multi_chromosome_y}')
+
     # Size of a field plot
     plt.plot(sfield_x, sfield_y, c='white')
     plt.plot(efield_x, efield_y, c='white')
