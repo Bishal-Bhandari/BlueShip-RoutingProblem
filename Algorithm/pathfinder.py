@@ -1,18 +1,18 @@
 import math
+from matplotlib import animation
 import matplotlib.pyplot as plt
-from operator import neg
 import random
 import numpy as np
 
 # Plotting field
-sfield_x = [-30]
-sfield_y = [-30]
-efield_x = [30]
-efield_y = [30]
+sfield_x = [-5]
+sfield_y = [-5]
+efield_x = [15]
+efield_y = [15]
 
 # Goal point for chromosomes
 end_x = [10]
-end_y = [17]
+end_y = [13]
 abs_end_x = end_x[0]
 abs_end_y = end_y[0]
 
@@ -31,6 +31,8 @@ for_multi_chromosome_y = []
 # Value for iteration
 val_iteration = 5
 
+Run_plot = True
+
 
 # Random value generator
 def randomize():
@@ -41,15 +43,18 @@ def randomize():
 def fitness_fun(hol_x, hol_y):
     Total_distance = []
     i_index = 0
+
     while i_index < len(hol_x):
         Euclidean_distance = []
-        for j_index in range(len(hol_x[i_index])-1):
+
+        for j_index in range(len(hol_x[i_index]) - 1):
             x1, x2 = int(hol_x[i_index][j_index]), int(hol_x[i_index][j_index + 1])
             y1, y2 = int(hol_y[i_index][j_index]), int(hol_y[i_index][j_index + 1])
             Euclidean_distance.append(math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2))
         Sum_distance = sum(Euclidean_distance)
         Total_distance.append(Sum_distance)
         i_index += 1
+
     return Total_distance
 
 
@@ -98,13 +103,12 @@ def points_chromosome(x_al, y_al):
 
 def gene_computation():
     # Initial point for chromosomes
-    start_x = [-13]
-    start_y = [-18]
+    start_x = [0]
+    start_y = [0]
 
     # Flush previous values
     hold_x.clear()
     hold_y.clear()
-
     i = 0
     Check_Condition = True
     # while condition for calculation of chromosome.
@@ -117,7 +121,7 @@ def gene_computation():
                     if random_val[1] == 1:
                         start_x[i] = start_x[i] + 0.5 * random_val[0]
                     else:
-                        start_y[i] = start_y[i] + 1.5 * random_val[0]
+                        start_y[i] = start_y[i] + 0.5 * random_val[0]
                 else:
                     pass
 
@@ -151,7 +155,7 @@ def gene_computation():
     return hold_x, hold_y
 
 
-def plot_grid():
+def plot_grid(Call):
     Cont_run = True
     i = 1
     while Cont_run:
@@ -165,14 +169,11 @@ def plot_grid():
             del hold_xx[:]
             del hold_yy[:]
 
+    # Calling fitness function
     fitness_value = fitness_fun(for_multi_chromosome_x, for_multi_chromosome_y)
-    print(fitness_value)
 
     print(f'ForX-{for_multi_chromosome_x},\n ForY--{for_multi_chromosome_y}')
-
-    # Size of a field plot
-    plt.plot(sfield_x, sfield_y, c='white')
-    plt.plot(efield_x, efield_y, c='white')
+    plt.cla()
 
     chromosome_color = ['blue', 'red', 'black', 'blue', 'red', 'black', 'blue', 'red', 'black', 'blue', 'red', 'black']
     for ite in range(val_iteration):
@@ -186,17 +187,24 @@ def plot_grid():
     # For start point of line
     plt.scatter(for_multi_chromosome_x[0][0], for_multi_chromosome_y[0][0], color=['Black'])
 
-    # naming the x axis
-    plt.xlabel('x - axis')
-    # naming the y axis
-    plt.ylabel('y - axis')
+    # Size of a field plot
+    plt.plot(sfield_x, sfield_y, c='white')
+    plt.plot(efield_x, efield_y, c='white')
 
-    # giving a title to my graph
-    plt.title('Blue Ship Route')
-
-    # Display the graph
-    plt.grid(True, which='major')
-    plt.show()
+    for_multi_chromosome_x.clear()
+    for_multi_chromosome_y.clear()
 
 
-plot_grid()
+anime = animation.FuncAnimation(plt.gcf(), plot_grid, interval=1000, frames=5)
+
+# naming the x axis
+plt.xlabel('x - axis')
+# naming the y axis
+plt.ylabel('y - axis')
+
+# giving a title to my graph
+plt.title('Blue Ship Route')
+
+# Display the graph
+plt.grid(True, which='major')
+plt.show()
