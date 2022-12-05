@@ -1,4 +1,7 @@
 import math
+
+import keyboard
+import sys
 from matplotlib import animation
 import matplotlib.pyplot as plt
 import random
@@ -29,9 +32,17 @@ for_multi_chromosome_x = []
 for_multi_chromosome_y = []
 
 # Value for iteration
-val_iteration = 5
+val_iteration = 20
 
-Run_plot = True
+# Value for generation
+val_gen = 0
+
+# Color list for lines to plot
+chromosome_color = ['blue', 'red', 'black', 'green', 'cyan',
+                    'magenta', 'yellow', 'olive', 'gray', 'brown',
+                    'purple', 'pink', 'teal', 'navy', 'tan',
+                    'maroon', 'steelblue', 'orchid', 'orange', 'tomato',
+                    'chocolate', 'forestgreen', 'slategrey', 'crimson']
 
 
 # Random value generator
@@ -156,6 +167,7 @@ def gene_computation():
 
 
 def plot_grid(Call):
+    global val_gen
     Cont_run = True
     i = 1
     while Cont_run:
@@ -171,14 +183,17 @@ def plot_grid(Call):
 
     # Calling fitness function
     fitness_value = fitness_fun(for_multi_chromosome_x, for_multi_chromosome_y)
+    fittest_val = min(fitness_value)
 
-    print(f'ForX-{for_multi_chromosome_x},\n ForY--{for_multi_chromosome_y}')
-    plt.cla()
+    # Clearing the current figure state
+    plt.clf()
 
-    chromosome_color = ['blue', 'red', 'black', 'blue', 'red', 'black', 'blue', 'red', 'black', 'blue', 'red', 'black']
     for ite in range(val_iteration):
         # Line data holder
-        plt.plot(for_multi_chromosome_x[ite], for_multi_chromosome_y[ite], color='black')
+        plt.plot(for_multi_chromosome_x[ite],
+                 for_multi_chromosome_y[ite],
+                 label='Line- ' + str(ite + 1),
+                 color=chromosome_color[ite])
 
     # Plotting points for obstacle
     plt.scatter(obs_x, obs_y, label="stars", color=['red'])
@@ -186,25 +201,31 @@ def plot_grid(Call):
     plt.scatter(end_x, end_y, color=['Black'])
     # For start point of line
     plt.scatter(for_multi_chromosome_x[0][0], for_multi_chromosome_y[0][0], color=['Black'])
-
+    plt.legend()
     # Size of a field plot
     plt.plot(sfield_x, sfield_y, c='white')
     plt.plot(efield_x, efield_y, c='white')
 
+    # Naming the x axis and including the info of generations
+    plt.xlabel('x - axis' + '\nGeneration: ' + str(val_gen) + '\n Fittest Chromosome: ' + str(fittest_val))
+    val_gen = val_gen + 1
+
+    # naming the y axis
+    plt.ylabel('y - axis')
+
+    # giving a title to my graph
+    plt.title('Blue Ship Route')
+
+    # Display the graph
+    plt.grid(True, which='major')
+
     for_multi_chromosome_x.clear()
     for_multi_chromosome_y.clear()
 
+    # Exit the loop
+    keyboard.add_hotkey('q', lambda: quit())
 
-anime = animation.FuncAnimation(plt.gcf(), plot_grid, interval=1000, frames=5)
 
-# naming the x axis
-plt.xlabel('x - axis')
-# naming the y axis
-plt.ylabel('y - axis')
-
-# giving a title to my graph
-plt.title('Blue Ship Route')
-
-# Display the graph
-plt.grid(True, which='major')
+# THE MAIN PART
+anime = animation.FuncAnimation(plt.gcf(), plot_grid, interval=1, frames=5)
 plt.show()
