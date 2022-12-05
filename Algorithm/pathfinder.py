@@ -1,6 +1,8 @@
 import math
 import matplotlib.pyplot as plt
+from operator import neg
 import random
+import numpy as np
 
 # Plotting field
 sfield_x = [-30]
@@ -9,8 +11,10 @@ efield_x = [30]
 efield_y = [30]
 
 # Goal point for chromosomes
-end_x = [12]
-end_y = [5]
+end_x = [10]
+end_y = [17]
+abs_end_x = end_x[0]
+abs_end_y = end_y[0]
 
 # Obstacles
 obs_x = [-5, 1, 3, 2, 2.5, 3, 4, 8, 4, 5, 6, 8, 4, 8, 5, 7, 8, 7, 2, 2, 4, 6, 9]
@@ -35,56 +39,58 @@ def randomize():
 
 # Gives fitness value
 def fitness_fun(hol_x, hol_y):
-    Euclidean_distance = math.dist(hol_x, hol_y)
-    return True
+    Total_distance = []
+    i_index = 0
+    while i_index < len(hol_x):
+        Euclidean_distance = []
+        for j_index in range(len(hol_x[i_index])-1):
+            x1, x2 = int(hol_x[i_index][j_index]), int(hol_x[i_index][j_index + 1])
+            y1, y2 = int(hol_y[i_index][j_index]), int(hol_y[i_index][j_index + 1])
+            Euclidean_distance.append(math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2))
+        Sum_distance = sum(Euclidean_distance)
+        Total_distance.append(Sum_distance)
+        i_index += 1
+    return Total_distance
 
 
 # Generate points for the chromosomes
 def points_chromosome(x_al, y_al):
     val_distance = []
 
-    val_distance_1 = math.sqrt((end_x[0] - (x_al + 1)) ** 2 + (end_y[0] - (y_al + 1)) ** 2)
+    val_distance_1 = math.sqrt((abs_end_x - (x_al + 1)) ** 2 + (abs_end_y - (y_al + 1)) ** 2)
     val_distance.append(val_distance_1)
-    val_distance_2 = math.sqrt((end_x[0] - x_al) ** 2 + (end_y[0] - (y_al + 1)) ** 2)
+    val_distance_2 = math.sqrt((abs_end_x - x_al) ** 2 + (abs_end_y - (y_al + 1)) ** 2)
     val_distance.append(val_distance_2)
-    val_distance_3 = math.sqrt((end_x[0] - (x_al - 1)) ** 2 + (end_y[0] - (y_al + 1)) ** 2)
+    val_distance_3 = math.sqrt((abs_end_x - (x_al - 1)) ** 2 + (abs_end_y - (y_al + 1)) ** 2)
     val_distance.append(val_distance_3)
-    val_distance_4 = math.sqrt((end_x[0] - (x_al - 1)) ** 2 + (end_y[0] - y_al) ** 2)
+    val_distance_4 = math.sqrt((abs_end_x - (x_al - 1)) ** 2 + (abs_end_y - y_al) ** 2)
     val_distance.append(val_distance_4)
-    val_distance_5 = math.sqrt((end_x[0] - (x_al - 1)) ** 2 + (end_y[0] - (y_al - 1)) ** 2)
+    val_distance_5 = math.sqrt((abs_end_x - (x_al - 1)) ** 2 + (abs_end_y - (y_al - 1)) ** 2)
     val_distance.append(val_distance_5)
-    val_distance_6 = math.sqrt((end_x[0] - x_al) ** 2 + (end_y[0] - (y_al - 1)) ** 2)
+    val_distance_6 = math.sqrt((abs_end_x - x_al) ** 2 + (abs_end_y - (y_al - 1)) ** 2)
     val_distance.append(val_distance_6)
-    val_distance_7 = math.sqrt((end_x[0] - (x_al + 1)) ** 2 + (end_y[0] - (y_al - 1)) ** 2)
+    val_distance_7 = math.sqrt((abs_end_x - (x_al + 1)) ** 2 + (abs_end_y - (y_al - 1)) ** 2)
     val_distance.append(val_distance_7)
-    val_distance_8 = math.sqrt((end_x[0] - (x_al + 1)) ** 2 + (end_y[0] - y_al) ** 2)
+    val_distance_8 = math.sqrt((abs_end_x - (x_al + 1)) ** 2 + (abs_end_y - y_al) ** 2)
     val_distance.append(val_distance_8)
 
     min_val = min(val_distance)
 
     if min_val == val_distance_1:
-        # print(f'x1-{x_al + 0.5},y{y_al + 0.5}')
         return x_al + 1, y_al + 1
     elif min_val == val_distance_2:
-        # print(f'x2-{x_al},y{y_al + 0.5}')
         return x_al, y_al + 1
     elif min_val == val_distance_3:
-        # print(f'x3-{x_al - 0.5},y{y_al + 0.5}')
         return x_al - 1, y_al + 1
     elif min_val == val_distance_4:
-        # print(f'x4-{x_al - 0.5},y{y_al}')
         return x_al - 1, y_al
     elif min_val == val_distance_5:
-        # print(f'x5-{x_al - 0.5},y{y_al - 0.5}')
         return x_al - 1, y_al - 1
     elif min_val == val_distance_6:
-        # print(f'x6-{x_al},y{y_al - 0.5}')
         return x_al, y_al - 1
     elif min_val == val_distance_7:
-        # print(f'x7-{x_al + 0.5},y{y_al - 0.5}')
         return x_al + 1, y_al - 1
     elif min_val == val_distance_8:
-        # print(f'x-{x_al + 0.5},y{y_al}')
         return x_al + 1, y_al
     else:
         pass
@@ -92,8 +98,13 @@ def points_chromosome(x_al, y_al):
 
 def gene_computation():
     # Initial point for chromosomes
-    start_x = [0]
-    start_y = [0]
+    start_x = [-13]
+    start_y = [-18]
+
+    # Flush previous values
+    hold_x.clear()
+    hold_y.clear()
+
     i = 0
     Check_Condition = True
     # while condition for calculation of chromosome.
@@ -111,19 +122,22 @@ def gene_computation():
                     pass
 
         # If chromosome's value is bigger then end value, then reroute it towards end point.
-        if start_x[i] > end_x[0]:
-            start_x[i] = start_x[i] - (start_x[i] - end_x[0])
-        elif start_y[i] > end_y[0]:
-            start_y[i] = start_y[i] - (start_y[i] - end_y[0])
+        if abs_end_x >= 0 and abs_end_y >= 0:
+            if start_x[i] > abs_end_x:
+                start_x[i] = start_x[i] - (start_x[i] - abs_end_x)
+            elif start_y[i] > abs_end_y:
+                start_y[i] = start_y[i] - (start_y[i] - abs_end_y)
+            else:
+                pass
         else:
             pass
 
-        # Assign the value to the holder.
+        # Assign the value to the holder for return.
         hold_x.append(start_x[i])
         hold_y.append(start_y[i])
 
         # If final coordinates of chromosome and end points are same then break the loop.
-        if start_x[i] == end_x[0] and start_y[i] == end_y[0] or i == 100:
+        if start_x[i] == abs_end_x and start_y[i] == abs_end_y or i == 100:
             Check_Condition = False
         else:
             pass
@@ -151,7 +165,8 @@ def plot_grid():
             del hold_xx[:]
             del hold_yy[:]
 
-    # fitness_value = fitness_fun(hold_x, hold_y)
+    fitness_value = fitness_fun(for_multi_chromosome_x, for_multi_chromosome_y)
+    print(fitness_value)
 
     print(f'ForX-{for_multi_chromosome_x},\n ForY--{for_multi_chromosome_y}')
 
@@ -169,7 +184,7 @@ def plot_grid():
     # For end point of line
     plt.scatter(end_x, end_y, color=['Black'])
     # For start point of line
-    plt.scatter(0, 0, color=['Black'])
+    plt.scatter(for_multi_chromosome_x[0][0], for_multi_chromosome_y[0][0], color=['Black'])
 
     # naming the x axis
     plt.xlabel('x - axis')
