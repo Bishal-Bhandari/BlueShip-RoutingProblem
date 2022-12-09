@@ -1,10 +1,9 @@
 import math
-
 import keyboard
-import sys
 from matplotlib import animation
 import matplotlib.pyplot as plt
 import random
+from SelectionCnM import CrossoverMutation
 import numpy as np
 
 # Plotting field
@@ -32,22 +31,23 @@ for_multi_chromosome_x = []
 for_multi_chromosome_y = []
 
 # Value for iteration
-val_iteration = 20
+val_iteration = 10
 
 # Value for generation
 val_gen = 0
 
-# Color list for lines to plot
-chromosome_color = ['blue', 'red', 'black', 'green', 'cyan',
-                    'magenta', 'yellow', 'olive', 'gray', 'brown',
-                    'purple', 'pink', 'teal', 'navy', 'tan',
-                    'maroon', 'steelblue', 'orchid', 'orange', 'tomato',
-                    'chocolate', 'forestgreen', 'slategrey', 'crimson']
+# Class object
+cross_mutation = CrossoverMutation()
 
 
 # Random value generator
 def randomize():
     return random.uniform(-2, 2), random.choice([1, 2])
+
+
+# For mutation
+def mutate_chromosome():
+    return True
 
 
 # Gives fitness value
@@ -57,16 +57,20 @@ def fitness_fun(hol_x, hol_y):
 
     while i_index < len(hol_x):
         Euclidean_distance = []
-
         for j_index in range(len(hol_x[i_index]) - 1):
-            x1, x2 = int(hol_x[i_index][j_index]), int(hol_x[i_index][j_index + 1])
-            y1, y2 = int(hol_y[i_index][j_index]), int(hol_y[i_index][j_index + 1])
+            x1, x2 = float(hol_x[i_index][j_index]), float(hol_x[i_index][j_index + 1])
+            y1, y2 = float(hol_y[i_index][j_index]), float(hol_y[i_index][j_index + 1])
             Euclidean_distance.append(math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2))
         Sum_distance = sum(Euclidean_distance)
         Total_distance.append(Sum_distance)
         i_index += 1
-
-    return Total_distance
+    temp_list_dict = {z[0]: list(z[1:]) for z in zip(Total_distance, hol_x, hol_y)}
+    # Selecting the 50% of chromosome from the pool
+    fitness_val = 0.5 * len(temp_list_dict)
+    temp_list_dict = dict(sorted(temp_list_dict.items()))
+    temp_list_dict = {k: temp_list_dict[k] for k in list(temp_list_dict)[:int(fitness_val)]}
+    best_fit_chromosome = cross_mutation.crossover(temp_list_dict)
+    return best_fit_chromosome
 
 
 # Generate points for the chromosomes
@@ -112,6 +116,7 @@ def points_chromosome(x_al, y_al):
         pass
 
 
+# For chromosome computation
 def gene_computation():
     # Initial point for chromosomes
     start_x = [0]
@@ -166,6 +171,7 @@ def gene_computation():
     return hold_x, hold_y
 
 
+# Plot lines in RT
 def plot_grid(Call):
     global val_gen
     Cont_run = True
@@ -189,18 +195,31 @@ def plot_grid(Call):
     plt.clf()
 
     for ite in range(val_iteration):
+        # Color list for lines to plot
+        chromosome_color = random.choice(['blue', 'red', 'black', 'green', 'cyan',
+                                          'magenta', 'yellow', 'olive', 'gray', 'brown',
+                                          'purple', 'pink', 'teal', 'navy', 'tan',
+                                          'maroon', 'steelblue', 'orchid', 'orange', 'tomato',
+                                          'chocolate', 'forestgreen', 'slategrey', 'crimson'])
         # Line data holder
         plt.plot(for_multi_chromosome_x[ite],
                  for_multi_chromosome_y[ite],
                  label='Line- ' + str(ite + 1),
-                 color=chromosome_color[ite])
+                 color=chromosome_color)
 
     # Plotting points for obstacle
-    plt.scatter(obs_x, obs_y, label="stars", color=['red'])
+    plt.scatter(obs_x,
+                obs_y,
+                label="Obstacles",
+                color=['red'])
     # For end point of line
-    plt.scatter(end_x, end_y, color=['Black'])
+    plt.scatter(end_x,
+                end_y,
+                color=['Black'])
     # For start point of line
-    plt.scatter(for_multi_chromosome_x[0][0], for_multi_chromosome_y[0][0], color=['Black'])
+    plt.scatter(for_multi_chromosome_x[0][0],
+                for_multi_chromosome_y[0][0],
+                color=['Black'])
     plt.legend()
     # Size of a field plot
     plt.plot(sfield_x, sfield_y, c='white')
@@ -227,5 +246,8 @@ def plot_grid(Call):
 
 
 # THE MAIN PART
-anime = animation.FuncAnimation(plt.gcf(), plot_grid, interval=1, frames=5)
+anime = animation.FuncAnimation(plt.gcf(),
+                                plot_grid,
+                                interval=1000,
+                                frames=5)
 plt.show()
