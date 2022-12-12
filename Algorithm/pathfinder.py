@@ -31,13 +31,10 @@ for_multi_chromosome_x = []
 for_multi_chromosome_y = []
 
 # Value for iteration
-val_iteration = 10
+val_iteration = 5
 
 # Value for generation
 val_gen = 0
-
-# Class object
-cross_mutation = CrossoverMutation()
 
 
 # Random value generator
@@ -69,8 +66,11 @@ def fitness_fun(hol_x, hol_y):
     fitness_val = 0.5 * len(temp_list_dict)
     temp_list_dict = dict(sorted(temp_list_dict.items()))
     temp_list_dict = {k: temp_list_dict[k] for k in list(temp_list_dict)[:int(fitness_val)]}
-    best_fit_chromosome = cross_mutation.crossover(temp_list_dict)
-    return best_fit_chromosome
+    # Class object
+    cross_mutation = CrossoverMutation(temp_list_dict)
+    crossover_child_x, crossover_child_y = cross_mutation.crossover()
+    print(f'From class: x{crossover_child_x}, y{crossover_child_y}')
+    return Total_distance
 
 
 # Generate points for the chromosomes
