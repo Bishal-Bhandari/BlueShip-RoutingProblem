@@ -19,9 +19,7 @@ hold_y = []
 for_multi_chromosome_x = []
 for_multi_chromosome_y = []
 # Value for iteration
-val_iteration = 10
-# Value for generation
-val_gen = 0
+val_iteration = 100
 # For global lowest value of distance
 global_fittest_val = []
 

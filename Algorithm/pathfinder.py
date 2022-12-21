@@ -6,6 +6,9 @@ import random
 from SelectionCnM import CrossoverMutation
 from VarUsed import *
 
+# Value for generation
+val_gen = 0
+
 
 # Random value generator
 def randomize():
