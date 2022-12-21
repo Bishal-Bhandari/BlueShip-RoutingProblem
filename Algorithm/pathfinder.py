@@ -4,37 +4,7 @@ from matplotlib import animation
 import matplotlib.pyplot as plt
 import random
 from SelectionCnM import CrossoverMutation
-import numpy as np
-
-# Plotting field
-sfield_x = [-5]
-sfield_y = [-5]
-efield_x = [15]
-efield_y = [15]
-
-# Goal point for chromosomes
-end_x = [10]
-end_y = [13]
-abs_end_x = end_x[0]
-abs_end_y = end_y[0]
-
-# Obstacles
-obs_x = [-5, 1, 3, 2, 2.5, 3, 4, 8, 4, 5, 6, 8, 4, 8, 5, 7, 8, 7, 2, 2, 4, 6, 9]
-obs_y = [-5, 5, 7, 5, 5, 5, 5, 8, 4, 4, 2, 3, 7, 8, 2, 2, 8, 1, 8, 7, 3, 4, 9]
-
-# plotting the points for chromosomes
-hold_x = []
-hold_y = []
-
-# list of list for chromosome
-for_multi_chromosome_x = []
-for_multi_chromosome_y = []
-
-# Value for iteration
-val_iteration = 5
-
-# Value for generation
-val_gen = 0
+from VarUsed import *
 
 
 # Random value generator
@@ -42,16 +12,10 @@ def randomize():
     return random.uniform(-2, 2), random.choice([1, 2])
 
 
-# For mutation
-def mutate_chromosome():
-    return True
-
-
 # Gives fitness value
 def fitness_fun(hol_x, hol_y):
     Total_distance = []
     i_index = 0
-
     while i_index < len(hol_x):
         Euclidean_distance = []
         for j_index in range(len(hol_x[i_index]) - 1):
@@ -63,14 +27,13 @@ def fitness_fun(hol_x, hol_y):
         i_index += 1
     temp_list_dict = {z[0]: list(z[1:]) for z in zip(Total_distance, hol_x, hol_y)}
     # Selecting the 50% of chromosome from the pool
-    fitness_val = 0.5 * len(temp_list_dict)
+    fitness_val = 0.75 * len(temp_list_dict)
     temp_list_dict = dict(sorted(temp_list_dict.items()))
     temp_list_dict = {k: temp_list_dict[k] for k in list(temp_list_dict)[:int(fitness_val)]}
     # Class object
     cross_mutation = CrossoverMutation(temp_list_dict)
     crossover_child_x, crossover_child_y = cross_mutation.crossover()
-    print(f'From class: x{crossover_child_x}, y{crossover_child_y}')
-    return Total_distance
+    return Total_distance, crossover_child_x, crossover_child_y
 
 
 # Generate points for the chromosomes
@@ -175,11 +138,13 @@ def gene_computation():
 def plot_grid(Call):
     global val_gen
     Cont_run = True
+
     i = 1
     while Cont_run:
         hold_xx, hold_yy = gene_computation()
         for_multi_chromosome_x.append(hold_xx.copy())
         for_multi_chromosome_y.append(hold_yy.copy())
+        print(len(hold_xx))
         if i == val_iteration:
             Cont_run = False
         else:
@@ -187,14 +152,20 @@ def plot_grid(Call):
             del hold_xx[:]
             del hold_yy[:]
 
-    # Calling fitness function
-    fitness_value = fitness_fun(for_multi_chromosome_x, for_multi_chromosome_y)
+    # Fitness function
+    fitness_value, grid_child_x, grid_child_y = fitness_fun(for_multi_chromosome_x, for_multi_chromosome_y)
     fittest_val = min(fitness_value)
+    global_fittest_val.append(fittest_val)
+
+    # Add crossover value to the main gene pool
+    len_child_Chromosome = len(grid_child_x)
+    for_multi_chromosome_x.extend(grid_child_x)
+    for_multi_chromosome_y.extend(grid_child_y)
 
     # Clearing the current figure state
     plt.clf()
 
-    for ite in range(val_iteration):
+    for ite in range((val_iteration + len_child_Chromosome)):
         # Color list for lines to plot
         chromosome_color = random.choice(['blue', 'red', 'black', 'green', 'cyan',
                                           'magenta', 'yellow', 'olive', 'gray', 'brown',
@@ -226,7 +197,9 @@ def plot_grid(Call):
     plt.plot(efield_x, efield_y, c='white')
 
     # Naming the x axis and including the info of generations
-    plt.xlabel('x - axis' + '\nGeneration: ' + str(val_gen) + '\n Fittest Chromosome: ' + str(fittest_val))
+    plt.xlabel('x - axis' + '\nGeneration: ' + str(val_gen) +
+               '\n Fittest Chromosome per gen: ' + str(fittest_val) +
+               '   Fittest Chromosome: ' + str(min(global_fittest_val)))
     val_gen = val_gen + 1
 
     # naming the y axis

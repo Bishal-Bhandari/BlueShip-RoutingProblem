@@ -1,4 +1,5 @@
 import random
+from VarUsed import *
 
 
 class CrossoverMutation:
@@ -26,7 +27,7 @@ class CrossoverMutation:
         while i_index < (len(self.temp_x) - 1):
             temp_child_x = []
             temp_child_y = []
-            for j_index in range(len(min(self.temp_x[i_index], self.temp_x[i_index + 1]))):
+            for j_index in range(min(len(self.temp_x[i_index]), len(self.temp_x[i_index + 1]))):
                 if self.crossover_int[i_index] <= j_index <= self.crossover_max_len[i_index]:
                     temp_child_x.insert(j_index, self.temp_x[i_index + 1][j_index])
                     temp_child_y.insert(j_index, self.temp_y[i_index + 1][j_index])
@@ -36,5 +37,4 @@ class CrossoverMutation:
             self.child_x.append(temp_child_x)
             self.child_y.append(temp_child_y)
             i_index += 1
-        print(f'From class: x{self.child_x}, y{self.child_y}')
-        return self.temp_x, self.child_y
+        return self.child_x, self.child_y
