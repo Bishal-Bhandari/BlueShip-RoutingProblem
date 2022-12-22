@@ -30,7 +30,7 @@ def fitness_fun(hol_x, hol_y):
         i_index += 1
     temp_list_dict = {z[0]: list(z[1:]) for z in zip(Total_distance, hol_x, hol_y)}
     # Selecting the 50% of chromosome from the pool
-    fitness_val = 0.75 * len(temp_list_dict)
+    fitness_val = Fitness_selection_val * len(temp_list_dict)
     temp_list_dict = dict(sorted(temp_list_dict.items()))
     temp_list_dict = {k: temp_list_dict[k] for k in list(temp_list_dict)[:int(fitness_val)]}
     # Class object
@@ -43,41 +43,48 @@ def fitness_fun(hol_x, hol_y):
 def points_chromosome(x_al, y_al):
     val_distance = []
 
-    val_distance_1 = math.sqrt((abs_end_x - (x_al + 1)) ** 2 + (abs_end_y - (y_al + 1)) ** 2)
+    val_distance_1 = math.sqrt((abs_end_x - (x_al + Graph_plot_value)) ** 2 +
+                               (abs_end_y - (y_al + Graph_plot_value)) ** 2)
     val_distance.append(val_distance_1)
-    val_distance_2 = math.sqrt((abs_end_x - x_al) ** 2 + (abs_end_y - (y_al + 1)) ** 2)
+    val_distance_2 = math.sqrt((abs_end_x - x_al) ** 2 +
+                               (abs_end_y - (y_al + Graph_plot_value)) ** 2)
     val_distance.append(val_distance_2)
-    val_distance_3 = math.sqrt((abs_end_x - (x_al - 1)) ** 2 + (abs_end_y - (y_al + 1)) ** 2)
+    val_distance_3 = math.sqrt((abs_end_x - (x_al - Graph_plot_value)) ** 2 +
+                               (abs_end_y - (y_al + Graph_plot_value)) ** 2)
     val_distance.append(val_distance_3)
-    val_distance_4 = math.sqrt((abs_end_x - (x_al - 1)) ** 2 + (abs_end_y - y_al) ** 2)
+    val_distance_4 = math.sqrt((abs_end_x - (x_al - Graph_plot_value)) ** 2 +
+                               (abs_end_y - y_al) ** 2)
     val_distance.append(val_distance_4)
-    val_distance_5 = math.sqrt((abs_end_x - (x_al - 1)) ** 2 + (abs_end_y - (y_al - 1)) ** 2)
+    val_distance_5 = math.sqrt((abs_end_x - (x_al - Graph_plot_value)) ** 2 +
+                               (abs_end_y - (y_al - Graph_plot_value)) ** 2)
     val_distance.append(val_distance_5)
-    val_distance_6 = math.sqrt((abs_end_x - x_al) ** 2 + (abs_end_y - (y_al - 1)) ** 2)
+    val_distance_6 = math.sqrt((abs_end_x - x_al) ** 2 +
+                               (abs_end_y - (y_al - Graph_plot_value)) ** 2)
     val_distance.append(val_distance_6)
-    val_distance_7 = math.sqrt((abs_end_x - (x_al + 1)) ** 2 + (abs_end_y - (y_al - 1)) ** 2)
+    val_distance_7 = math.sqrt((abs_end_x - (x_al + Graph_plot_value)) ** 2 +
+                               (abs_end_y - (y_al - Graph_plot_value)) ** 2)
     val_distance.append(val_distance_7)
-    val_distance_8 = math.sqrt((abs_end_x - (x_al + 1)) ** 2 + (abs_end_y - y_al) ** 2)
+    val_distance_8 = math.sqrt((abs_end_x - (x_al + Graph_plot_value)) ** 2 +
+                               (abs_end_y - y_al) ** 2)
     val_distance.append(val_distance_8)
 
     min_val = min(val_distance)
-
     if min_val == val_distance_1:
-        return x_al + 1, y_al + 1
+        return x_al + Graph_plot_value, y_al + Graph_plot_value
     elif min_val == val_distance_2:
-        return x_al, y_al + 1
+        return x_al, y_al + Graph_plot_value
     elif min_val == val_distance_3:
-        return x_al - 1, y_al + 1
+        return x_al - Graph_plot_value, y_al + Graph_plot_value
     elif min_val == val_distance_4:
-        return x_al - 1, y_al
+        return x_al - Graph_plot_value, y_al
     elif min_val == val_distance_5:
-        return x_al - 1, y_al - 1
+        return x_al - Graph_plot_value, y_al - Graph_plot_value
     elif min_val == val_distance_6:
-        return x_al, y_al - 1
+        return x_al, y_al - Graph_plot_value
     elif min_val == val_distance_7:
-        return x_al + 1, y_al - 1
+        return x_al + Graph_plot_value, y_al - Graph_plot_value
     elif min_val == val_distance_8:
-        return x_al + 1, y_al
+        return x_al + Graph_plot_value, y_al
     else:
         pass
 
@@ -85,8 +92,8 @@ def points_chromosome(x_al, y_al):
 # For chromosome computation
 def gene_computation():
     # Initial point for chromosomes
-    start_x = [0]
-    start_y = [0]
+    start_x = [2]
+    start_y = [2]
 
     # Flush previous values
     hold_x.clear()
@@ -123,7 +130,7 @@ def gene_computation():
         hold_y.append(start_y[i])
 
         # If final coordinates of chromosome and end points are same then break the loop.
-        if start_x[i] == abs_end_x and start_y[i] == abs_end_y or i == 100:
+        if start_x[i] == abs_end_x and start_y[i] == abs_end_y or i == End_loop_limit:
             Check_Condition = False
         else:
             pass
@@ -138,16 +145,15 @@ def gene_computation():
 
 
 # Plot lines in RT
-def plot_grid(Call):
+def plot_grid(dummy):
     global val_gen
-    Cont_run = True
 
+    Cont_run = True
     i = 1
     while Cont_run:
         hold_xx, hold_yy = gene_computation()
         for_multi_chromosome_x.append(hold_xx.copy())
         for_multi_chromosome_y.append(hold_yy.copy())
-        print(len(hold_xx))
         if i == val_iteration:
             Cont_run = False
         else:
@@ -185,7 +191,8 @@ def plot_grid(Call):
     plt.scatter(obs_x,
                 obs_y,
                 label="Obstacles",
-                color=['red'])
+                color=['green'],
+                s=5)
     # For end point of line
     plt.scatter(end_x,
                 end_y,

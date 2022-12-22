@@ -1,5 +1,4 @@
-import random
-from VarUsed import *
+import numpy as np
 
 
 class CrossoverMutation:
@@ -22,7 +21,10 @@ class CrossoverMutation:
             self.crossover_max_len.append(len(self.temp_x[i]))
 
         for x_index in range(len(self.selected_chromosome)):
-            self.crossover_int.append(random.randint(self.min_range_Crossover, self.crossover_max_len[x_index]))
+            self.crossover_int.append(np.random.uniform(
+                self.min_range_Crossover,
+                self.crossover_max_len[x_index],
+                size=1))
         i_index = 0
         while i_index < (len(self.temp_x) - 1):
             temp_child_x = []
@@ -37,4 +39,9 @@ class CrossoverMutation:
             self.child_x.append(temp_child_x)
             self.child_y.append(temp_child_y)
             i_index += 1
+        self.child_x, self.child_y = self.mutation(self.child_x, self.child_y)
         return self.child_x, self.child_y
+
+    def mutation(self, x_value, y_value):
+
+        return x_value, y_value
