@@ -166,11 +166,12 @@ def plot_grid(dummy):
     fittest_val = min(fitness_value)
     global_fittest_val.append(fittest_val)
 
-    # Add crossover value to the main gene pool
+    # Add crossover and mutated value to the main gene pool
     len_child_Chromosome = len(grid_child_x)
     for_multi_chromosome_x.extend(grid_child_x)
     for_multi_chromosome_y.extend(grid_child_y)
-
+    print(for_multi_chromosome_x)
+    print(for_multi_chromosome_y)
     # Clearing the current figure state
     plt.clf()
 
