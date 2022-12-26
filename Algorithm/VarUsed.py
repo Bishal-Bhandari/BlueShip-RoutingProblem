@@ -23,7 +23,7 @@ val_iteration = 10
 # For global lowest value of distance
 global_fittest_val = []
 # Number of chromosome to select from pool
-Fitness_selection_val = 0.75
+Fitness_selection_val = 1
 # Loop limit for end condition
 End_loop_limit = 100
 # Added value from neighbourhood search point
