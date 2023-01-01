@@ -1,5 +1,6 @@
 import math
 import keyboard
+import numpy as np
 from matplotlib import animation
 import matplotlib.pyplot as plt
 import random
@@ -8,6 +9,16 @@ from VarUsed import *
 
 # Value for generation
 val_gen = 0
+
+
+# Generate random obstacle as part of mutation
+def obstacle_generation():
+    generated_obs_x = []
+    generated_obs_y = []
+    for o_index in range(number_of_obstacles):
+        generated_obs_x.extend(np.random.uniform(for_x_initial, abs_end_x, size=1))
+        generated_obs_y.extend(np.random.uniform(for_y_initial, abs_end_y, size=1))
+    return generated_obs_x, generated_obs_y
 
 
 # Random value generator
@@ -92,8 +103,8 @@ def points_chromosome(x_al, y_al):
 # For chromosome computation
 def gene_computation():
     # Initial point for chromosomes
-    start_x = [2]
-    start_y = [2]
+    start_x = [for_x_initial]
+    start_y = [for_y_initial]
 
     # Flush previous values
     hold_x.clear()
@@ -102,14 +113,17 @@ def gene_computation():
     Check_Condition = True
     # while condition for calculation of chromosome.
     while Check_Condition:
+
         for idx in range(len(obs_x)):
             for idy in range(len(obs_y)):
                 # Check coordinates from chromosome and obstacle, if same change the chromosome coordinate.
                 if start_x[i] == obs_x[idy] and start_y[i] == obs_y[idy]:
                     random_val = randomize()
                     if random_val[1] == 1:
+                        print("Strike with X")
                         start_x[i] = start_x[i] + 0.5 * random_val[0]
                     else:
+                        print("Strike with Y")
                         start_y[i] = start_y[i] + 0.5 * random_val[0]
                 else:
                     pass
@@ -147,6 +161,11 @@ def gene_computation():
 # Plot lines in RT
 def plot_grid(dummy):
     global val_gen
+
+    # For obstacles as mutation
+    temp_obs_x, temp_obs_y = obstacle_generation()
+    obs_x.extend(temp_obs_x)
+    obs_y.extend(temp_obs_y)
 
     Cont_run = True
     i = 1
@@ -194,6 +213,10 @@ def plot_grid(dummy):
                 label="Obstacles",
                 color=['green'],
                 s=5)
+    # Removing the added obstacles
+    del obs_x[-number_of_obstacles:]
+    del obs_y[-number_of_obstacles:]
+
     # For end point of line
     plt.scatter(end_x,
                 end_y,
