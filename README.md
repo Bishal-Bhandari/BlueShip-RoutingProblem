@@ -12,4 +12,4 @@ Initial route generation.
 ![Initial Work of Algorithm](https://github.com/Bishal-Bhandari/BlueShip-RoutingProblem/blob/master/Image/Screenshot%20(1).png?raw=true)
 
 Updated with world map.
-![On World Map](https://github.com/Bishal-Bhandari/BlueShip-RoutingProblem/blob/master/Image/Screenshot%20(2).png?raw=true)
+<img alt="On World Map" src="D:\Project\BlueShipRoutingProblem\Image\Screenshot(2).png"/>
