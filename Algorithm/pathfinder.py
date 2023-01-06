@@ -168,12 +168,14 @@ def plot_grid(dummy):
     for_multi_chromosome_x.clear()
     for_multi_chromosome_y.clear()
     # For obstacles as mutation
-    temp_obs_x, temp_obs_y = obstacle_generation()
-    excel_data_df = pandas.read_excel('..\\SmallData.xlsx', sheet_name='Sheet1')
+    excel_data_df = pandas.read_excel('..\\SmallData.xlsx', sheet_name='Sheet1')  # Read from file
     obs_lat = excel_data_df['Lat'].tolist()
     obs_lon = excel_data_df['Lon'].tolist()
-    # print whole sheet data
-    print(excel_data_df)
+    # Add value from file to existing list of obstacle
+    # obs_x.extend(obs_lon)
+    # obs_y.extend(obs_lat)
+    # Call value from function
+    temp_obs_x, temp_obs_y = obstacle_generation()
     obs_x.extend(temp_obs_x)
     obs_y.extend(temp_obs_y)
 
