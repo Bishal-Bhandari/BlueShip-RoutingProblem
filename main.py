@@ -1,59 +1,39 @@
-import random
+from mpl_toolkits.basemap import Basemap
+import matplotlib.pyplot as plt
+import numpy as np
+from Algorithm.pathfinder import *
 
-import plotly.express as px
-import pandas as pd
-import plotly.graph_objects as go
+fig = plt.figure(figsize=(10, 8))
 
-# Read data file
-df1 = pd.read_excel(r'SmallData.xlsx')
-df2 = pd.read_excel(r'portpoint.xlsx')
+map = Basemap(projection='mill',
+              llcrnrlat=10,
+              urcrnrlat=60,
+              llcrnrlon=-80,
+              urcrnrlon=10,
+              resolution='l')
 
-# filter the data percentage to present
-df1 = df1.sample(frac=0.25)
+map.drawcoastlines()
 
+map.drawparallels(np.arange(-90, 90, 10), labels=[0, 1, 0, 1])
+map.drawmeridians(np.arange(-180, 180, 10), labels=[0, 0, 0, 1])
 
-def color_s():
-    color_list = ['red', 'blue', 'green', 'black']
-    value = random.choice(color_list)
-    return value
+lons = [-18.957707699807273, -19.957707699807273, -57.38221644849669, -58.38221644849669, -15.15, -20,
+        -16.840600000000002]
+lats = [34.999678, 34.999678, 34.999678, 34.999678, 32.56, 35, 34.999678]
+x, y = map(lons, lats)
+map.scatter(x, y, marker='D', color='m')
 
+lons_l = [-10, -20, -25, -10, 0, 10]
+lats_l = [40, 30, 10, 0, 0, -5]
+xl, yl = map(lons_l, lats_l)
+map.plot(xl, yl, marker=None, color='r')
 
-fig = go.Figure()
-fig.add_trace(go.Scattergeo(
-    lon=df1['Lon'],
-    lat=df1['Lat'],
-    hoverinfo='text',
-    text=df1['Species_Type'],
-    mode='markers',
-    marker=dict(
-        size=(df1['Population_Density'] / 5),
-        color=df1['Color'],
-    )))
+# Naming the x axis and including the info of generations
+plt.xlabel(' ' + '\nLatitude' + '\nGeneration: ')
 
-for i in range(len(df2)):
-    fig.add_trace(
-        go.Scattergeo(
-            lon=[df2['s_Lon'][i], df2['e_Lon'][i]],
-            lat=[df2['s_Lat'][i], df2['e_Lat'][i]],
-            mode='lines',
-            line=dict(width=1,
-                      color=color_s(),
-                      )))
+# naming the y axis
+plt.ylabel('Longitude')
 
-fig.update_geos(fitbounds="locations")
-fig.update_layout(
-    title_text='Blue Ship Route<br>(Hover over the dots for species name)',
-    showlegend=False,
-    margin=dict(l=0, r=0, t=55, b=10),
-    height=600,
-    geo=dict(
-        scope='world',
-        showland=True,
-        landcolor='lightgreen',
-        showocean=True,
-        oceancolor="lightBlue",
-    ),
-)
+plt.title('Blue Ship Routing Problem', fontsize=20)
 
-fig.show()
-print("Plotting.....")
+plt.show()

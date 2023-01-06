@@ -1,21 +1,21 @@
 # For Pathfinder
 # Plotting field
 sfield_x = [-5]
-sfield_y = [-5]
-efield_x = [15]
-efield_y = [15]
+sfield_y = [25]
+efield_x = [-80]
+efield_y = [36]
 # Initial point for chromosomes
-for_x_initial = 2
-for_y_initial = 2
+for_x_initial = -9.840600  # Longitude
+for_y_initial = 30.999678  # Latitude
 # Goal point for chromosomes
-end_x = [15]
-end_y = [8]
+end_x = [-76.430303]  # Longitude
+end_y = [35.085791]  # Latitude
 abs_end_x = end_x[0]
 abs_end_y = end_y[0]
 # Obstacles
-obs_x = [-5, 1, 3, 2, 2.5, 3, 4, 8, 4, 5, 6, 8, 4, 8, 5, 7, 8, 7, 2, 2, 4, 6, 9, 12, 15, 8, 7, 8, 4, 8, 5, 7]
-obs_y = [-5, 5, 7, 5, 5, 5, 5, 8, 4, 4, 2, 3, 7, 8, 2, 2, 8, 1, 8, 7, 3, 4, 9, 8, 15, 6, 4, 7, 5, 5, 5, 5]
-# Number of obstacles
+obs_x = [-18.957707699807273, -19.957707699807273, -57.38221644849669, -58.38221644849669, -15.15, -20, -16.840600000000002, -10.8406, -11.8406, -12.8406, -13.8406, -14.8406, -15.8406, -16.840600000000002]
+obs_y = [34.999678, 34.999678, 34.999678, 34.999678, 32.56, 35, 34.999678, 31.999678, 32.999678, 33.999678, 34.999678, 34.999678, 34.999678, 34.63786600808995]
+# Number of new randomly generated obstacles
 number_of_obstacles = 15
 # plotting the points for chromosomes
 hold_x = []
