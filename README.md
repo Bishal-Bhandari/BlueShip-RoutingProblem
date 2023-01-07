@@ -9,7 +9,7 @@ Bishal Bhandari
 5. Use algorithm on the real world map.[Remaining]
 
 Initial route generation.
-<img alt="Initial Work of Algorithm" src="D:\Project\BlueShipRoutingProblem\Image\Screenshot (1).png"/>
+![Initial route generation](https://github.com/Bishal-Bhandari/BlueShip-RoutingProblem/blob/master/Image/Screenshot%20(1).png)
 
 Updated with world map.
-<img alt="On World Map" src="D:\Project\BlueShipRoutingProblem\Image\Screenshot(2).png"/>
+![Updated with world map](https://github.com/Bishal-Bhandari/BlueShip-RoutingProblem/blob/master/Image/Screenshot(2).png)
