@@ -232,7 +232,6 @@ def plot_grid(dummy):
         temp_x, temp_y = map_basemap(for_multi_chromosome_x[ite], for_multi_chromosome_y[ite])
         map_basemap.plot(temp_x,
                          temp_y,
-                         label='Line- ' + str(ite + 1),
                          color=chromosome_color)
 
     # Plotting points for obstacle
@@ -250,6 +249,8 @@ def plot_grid(dummy):
     temp_end_x, temp_end_y = map_basemap(end_x, end_y)
     map_basemap.scatter(temp_end_x,
                         temp_end_y,
+                        label='Number of Population- ' + str(len(for_multi_chromosome_x) + 1),  # For number of
+                        # population
                         color=['Black'])
     # For start point of line
     temp_start_x, temp_start_y = map_basemap(for_multi_chromosome_x[0][0], for_multi_chromosome_y[0][0])
@@ -263,13 +264,14 @@ def plot_grid(dummy):
                '   Fittest Chromosome: ' + str(min(global_fittest_val)))
     val_gen = val_gen + 1
 
-    # naming the y axis
+    # Naming the y axis
     plt.ylabel('Longitude')
-    map_basemap.bluemarble()
+
+    # Adding the color to the map
     map_basemap.drawmapboundary(fill_color='aqua')
     map_basemap.fillcontinents(color='coral', lake_color='aqua')
 
-    # giving a title to my graph
+    # Giving a title to the graph
     plt.title('Blue Ship Route')
 
     # Display line details
