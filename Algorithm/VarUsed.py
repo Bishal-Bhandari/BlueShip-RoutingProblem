@@ -1,8 +1,4 @@
-# For Pathfinder
-sfield_x = [-5]
-sfield_y = [25]
-efield_x = [-80]
-efield_y = [36]
+
 # Initial point for chromosomes
 for_x_initial = -9.840600  # Longitude
 for_y_initial = 30.999678  # Latitude
@@ -17,7 +13,7 @@ obs_x = [-18.957707699807273, -19.957707699807273, -57.38221644849669, -58.38221
 obs_y = [34.999678, 34.999678, 34.999678, 34.999678, 32.56, 35, 34.999678, 31.999678, 32.999678, 33.999678, 34.999678,
          34.999678, 34.999678, 34.63786600808995]
 # Number of new randomly generated obstacles
-number_of_obstacles = 15
+number_of_obstacles = 20
 # plotting the points for chromosomes
 hold_x = []
 hold_y = []
@@ -25,13 +21,13 @@ hold_y = []
 for_multi_chromosome_x = []
 for_multi_chromosome_y = []
 # Value for iteration
-val_iteration = 10
+val_iteration = 5
 # For global lowest value of distance
 global_fittest_val = []
 # Number of chromosome to select from pool
 Fitness_selection_val = 1
 # Loop limit for end condition
-End_loop_limit = 100
+End_loop_limit = 150
 # Added value from neighbourhood search point
-Graph_plot_value = 1
+Graph_plot_value = 0.5
 

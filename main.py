@@ -8,21 +8,24 @@ from mpl_toolkits.basemap import Basemap
 import random
 from Algorithm.VarUsed import *
 
+# Value for generation
+val_gen = 0
+
 
 # Plot lines in RT
 def plot_grid(dummy):
     global val_gen
-
     # To clear previous value in the list
     for_multi_chromosome_x.clear()
     for_multi_chromosome_y.clear()
+
     # For obstacles as mutation
     excel_data_df = pandas.read_excel('SmallData.xlsx', sheet_name='Sheet1')  # Read from file
     obs_lat = excel_data_df['Lat'].tolist()
     obs_lon = excel_data_df['Lon'].tolist()
     # Add value from file to existing list of obstacle
-    # obs_x.extend(obs_lon)
-    # obs_y.extend(obs_lat)
+    obs_x.extend(obs_lon)
+    obs_y.extend(obs_lat)
     # Call value from function
     temp_obs_x, temp_obs_y = obstacle_generation()
     obs_x.extend(temp_obs_x)
@@ -90,9 +93,12 @@ def plot_grid(dummy):
                         label="Obstacles",
                         color=['green'],
                         s=5)
+
     # Removing the newly added obstacles
     del obs_x[-number_of_obstacles:]
     del obs_y[-number_of_obstacles:]
+    # obs_x.clear()
+    # obs_y.clear()
 
     # For end point of line
     temp_end_x, temp_end_y = map_basemap(end_x, end_y)
@@ -128,8 +134,6 @@ def plot_grid(dummy):
 
     # Exit the loop
     keyboard.add_hotkey('q', lambda: quit())
-
-    return for_multi_chromosome_x, for_multi_chromosome_y
 
 
 # # THE MAIN PART
