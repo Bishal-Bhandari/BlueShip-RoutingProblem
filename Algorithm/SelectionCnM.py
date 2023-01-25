@@ -16,6 +16,15 @@ def mutation(x_value, y_value):
     return x_value, y_value
 
 
+# Two point mutation
+def TwoPointMutation(x_value, y_value):
+    index_v = range(len(x_value))
+    ix1, ix2 = random.sample(index_v, 2)
+    x_value[ix1], x_value[ix2] = x_value[ix2], x_value[ix1]
+    y_value[ix1], y_value[ix2] = y_value[ix2], y_value[ix1]
+    return x_value, y_value
+
+
 class CrossoverMutation:
     def __init__(self, selected_chromosome):
         self.selected_chromosome = selected_chromosome
