@@ -2,26 +2,15 @@ import random
 import numpy as np
 
 
-def mutation(x_value, y_value):
-    for m_index in range(len(x_value)):
-        random_val = int(np.random.uniform(1, (len(x_value) - 1)))
-        w_index = 0
-        if random_val % 2 == 0:
-            while w_index < len(x_value[m_index]):
-                if w_index == random_val:
-                    temp_x_value, temp_y_value = x_value[m_index][random_val], y_value[m_index][random_val]
-                    x_value[m_index][random_val], y_value[m_index][random_val] = \
-                        temp_x_value + random.choice([0.25, -0.25]), temp_y_value + random.choice([0.25, -0.25])
-                w_index += 1
-    return x_value, y_value
-
-
 # Two point mutation
 def TwoPointMutation(x_value, y_value):
-    index_v = range(len(x_value))
-    ix1, ix2 = random.sample(index_v, 2)
-    x_value[ix1], x_value[ix2] = x_value[ix2], x_value[ix1]
-    y_value[ix1], y_value[ix2] = y_value[ix2], y_value[ix1]
+    for mut_i in range(len(x_value)):
+        index_v = range(len(x_value[mut_i]))
+        print(index_v)
+        ix1, ix2 = random.sample(index_v, 2)
+        print(ix1, ix2)
+        x_value[mut_i][ix1], x_value[mut_i][ix2] = x_value[mut_i][ix2], x_value[mut_i][ix1]
+        y_value[mut_i][ix1], y_value[mut_i][ix2] = y_value[mut_i][ix2], y_value[mut_i][ix1]
     return x_value, y_value
 
 
@@ -64,5 +53,7 @@ class CrossoverMutation:
             self.child_x.append(temp_child_x)
             self.child_y.append(temp_child_y)
             i_index += 1
-        self.child_x, self.child_y = mutation(self.child_x, self.child_y)
+        mutant_child_x, mutant_child_y = TwoPointMutation(self.child_x, self.child_y)
+        self.child_x.extend(mutant_child_x)
+        self.child_y.extend(mutant_child_y)
         return self.child_x, self.child_y

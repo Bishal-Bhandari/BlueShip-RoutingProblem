@@ -1,10 +1,11 @@
-
 # Initial point for chromosomes
 for_x_initial = -9.840600  # Longitude
 for_y_initial = 30.999678  # Latitude
 # Goal point for chromosomes
 end_x = [-76.430303]  # Longitude
 end_y = [35.085791]  # Latitude
+# end_x = [-9.737463805671098]  # Longitude
+# end_y = [51.45827167284625]  # Latitude
 abs_end_x = end_x[0]
 abs_end_y = end_y[0]
 # Obstacles
@@ -30,4 +31,3 @@ Fitness_selection_val = 1
 End_loop_limit = 150
 # Added value from neighbourhood search point
 Graph_plot_value = 0.5
-
