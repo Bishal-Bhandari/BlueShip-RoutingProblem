@@ -11,6 +11,21 @@ def TwoPointMutation(x_value, y_value):
         print(ix1, ix2)
         x_value[mut_i][ix1], x_value[mut_i][ix2] = x_value[mut_i][ix2], x_value[mut_i][ix1]
         y_value[mut_i][ix1], y_value[mut_i][ix2] = y_value[mut_i][ix2], y_value[mut_i][ix1]
+        x_value, y_value = mutation(x_value, y_value)
+    return x_value, y_value
+
+
+def mutation(x_value, y_value):
+    for m_index in range(len(x_value)):
+        random_val = int(np.random.uniform(1, (len(x_value) - 1)))
+        w_index = 0
+        if random_val % 2 == 0:
+            while w_index < len(x_value[m_index]):
+                if w_index == random_val:
+                    temp_x_value, temp_y_value = x_value[m_index][random_val], y_value[m_index][random_val]
+                    x_value[m_index][random_val], y_value[m_index][random_val] = \
+                        temp_x_value + random.choice([0.25, -0.25]), temp_y_value + random.choice([0.25, -0.25])
+                w_index += 1
     return x_value, y_value
 
 

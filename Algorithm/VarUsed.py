@@ -22,7 +22,7 @@ hold_y = []
 for_multi_chromosome_x = []
 for_multi_chromosome_y = []
 # Value for iteration
-val_iteration = 5
+val_iteration = 30
 # For global lowest value of distance
 global_fittest_val = []
 # Number of chromosome to select from pool

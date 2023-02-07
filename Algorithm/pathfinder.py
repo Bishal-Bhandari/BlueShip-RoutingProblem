@@ -7,12 +7,12 @@ from Algorithm.VarUsed import *
 
 
 # Mapping the projection for the map
-map_projection = Basemap(projection='mill',
-                         llcrnrlat=10,
-                         urcrnrlat=60,
-                         llcrnrlon=-80,
-                         urcrnrlon=10,
-                         resolution='l')
+# map_projection = Basemap(projection='mill',
+#                          llcrnrlat=10,
+#                          urcrnrlat=60,
+#                          llcrnrlon=-80,
+#                          urcrnrlon=10,
+#                          resolution='l')
 
 
 # Generate random obstacle as part of mutation
@@ -104,61 +104,61 @@ def points_chromosome(x_al, y_al):
         pass
 
 
-# Generating the points if land is on the way of route
-def avoid_land(x_pt, y_pt):
-    value_distance = []
-    x_val = []
-    y_val = []
-
-    value_distance_1 = math.sqrt((abs_end_x - (x_pt + Graph_plot_value)) ** 2 +
-                                 (abs_end_y - (y_pt + Graph_plot_value)) ** 2)
-    value_distance.append(value_distance_1)
-    x_val.append(x_pt + Graph_plot_value), y_val.append(y_pt + Graph_plot_value)
-
-    val_distance_2 = math.sqrt((abs_end_x - x_pt) ** 2 +
-                               (abs_end_y - (y_pt + Graph_plot_value)) ** 2)
-    value_distance.append(val_distance_2)
-    x_val.append(x_pt), y_val.append(y_pt + Graph_plot_value)
-
-    value_distance_3 = math.sqrt((abs_end_x - (x_pt - Graph_plot_value)) ** 2 +
-                                 (abs_end_y - (y_pt + Graph_plot_value)) ** 2)
-    value_distance.append(value_distance_3)
-    x_val.append(x_pt - Graph_plot_value), y_val.append(y_pt + Graph_plot_value)
-
-    value_distance_4 = math.sqrt((abs_end_x - (x_pt - Graph_plot_value)) ** 2 +
-                                 (abs_end_y - y_pt) ** 2)
-    value_distance.append(value_distance_4)
-    x_val.append(x_pt - Graph_plot_value), y_val.append(y_pt)
-
-    val_distance_5 = math.sqrt((abs_end_x - (x_pt - Graph_plot_value)) ** 2 +
-                               (abs_end_y - (y_pt - Graph_plot_value)) ** 2)
-    value_distance.append(val_distance_5)
-    x_val.append(x_pt - Graph_plot_value), y_val.append(y_pt - Graph_plot_value)
-
-    value_distance_6 = math.sqrt((abs_end_x - x_pt) ** 2 +
-                                 (abs_end_y - (y_pt - Graph_plot_value)) ** 2)
-    value_distance.append(value_distance_6)
-    x_val.append(x_pt), y_val.append(y_pt - Graph_plot_value)
-
-    value_distance_7 = math.sqrt((abs_end_x - (x_pt + Graph_plot_value)) ** 2 +
-                                 (abs_end_y - (y_pt - Graph_plot_value)) ** 2)
-    value_distance.append(value_distance_7)
-    x_val.append(x_pt + Graph_plot_value), y_val.append(y_pt - Graph_plot_value)
-
-    value_distance_8 = math.sqrt((abs_end_x - (x_pt + Graph_plot_value)) ** 2 +
-                                 (abs_end_y - y_pt) ** 2)
-    value_distance.append(value_distance_8)
-    x_val.append(x_pt + Graph_plot_value), y_val.append(y_pt)
-    for while_index in range(len(value_distance)):
-        print('Inside the basemap function.')
-        lon, lat = (x_val[while_index], y_val[while_index])  # test coordinates
-        xpt, ypt = map_projection(lon, lat)  # convert to projection map
-        value = map_projection.is_land(xpt, ypt)  # Checking if point is on land or not
-        if value:
-            x_val.pop(while_index), y_val.pop(while_index), value_distance.pop(while_index)
-        else:
-            min_pos = value_distance.index(min(value_distance))
-            return x_val[min_pos], y_val[min_pos]
+# # Generating the points if land is on the way of route
+# def avoid_land(x_pt, y_pt):
+#     value_distance = []
+#     x_val = []
+#     y_val = []
+#
+#     value_distance_1 = math.sqrt((abs_end_x - (x_pt + Graph_plot_value)) ** 2 +
+#                                  (abs_end_y - (y_pt + Graph_plot_value)) ** 2)
+#     value_distance.append(value_distance_1)
+#     x_val.append(x_pt + Graph_plot_value), y_val.append(y_pt + Graph_plot_value)
+#
+#     val_distance_2 = math.sqrt((abs_end_x - x_pt) ** 2 +
+#                                (abs_end_y - (y_pt + Graph_plot_value)) ** 2)
+#     value_distance.append(val_distance_2)
+#     x_val.append(x_pt), y_val.append(y_pt + Graph_plot_value)
+#
+#     value_distance_3 = math.sqrt((abs_end_x - (x_pt - Graph_plot_value)) ** 2 +
+#                                  (abs_end_y - (y_pt + Graph_plot_value)) ** 2)
+#     value_distance.append(value_distance_3)
+#     x_val.append(x_pt - Graph_plot_value), y_val.append(y_pt + Graph_plot_value)
+#
+#     value_distance_4 = math.sqrt((abs_end_x - (x_pt - Graph_plot_value)) ** 2 +
+#                                  (abs_end_y - y_pt) ** 2)
+#     value_distance.append(value_distance_4)
+#     x_val.append(x_pt - Graph_plot_value), y_val.append(y_pt)
+#
+#     val_distance_5 = math.sqrt((abs_end_x - (x_pt - Graph_plot_value)) ** 2 +
+#                                (abs_end_y - (y_pt - Graph_plot_value)) ** 2)
+#     value_distance.append(val_distance_5)
+#     x_val.append(x_pt - Graph_plot_value), y_val.append(y_pt - Graph_plot_value)
+#
+#     value_distance_6 = math.sqrt((abs_end_x - x_pt) ** 2 +
+#                                  (abs_end_y - (y_pt - Graph_plot_value)) ** 2)
+#     value_distance.append(value_distance_6)
+#     x_val.append(x_pt), y_val.append(y_pt - Graph_plot_value)
+#
+#     value_distance_7 = math.sqrt((abs_end_x - (x_pt + Graph_plot_value)) ** 2 +
+#                                  (abs_end_y - (y_pt - Graph_plot_value)) ** 2)
+#     value_distance.append(value_distance_7)
+#     x_val.append(x_pt + Graph_plot_value), y_val.append(y_pt - Graph_plot_value)
+#
+#     value_distance_8 = math.sqrt((abs_end_x - (x_pt + Graph_plot_value)) ** 2 +
+#                                  (abs_end_y - y_pt) ** 2)
+#     value_distance.append(value_distance_8)
+#     x_val.append(x_pt + Graph_plot_value), y_val.append(y_pt)
+#     for while_index in range(len(value_distance)):
+#         print('Inside the basemap function.')
+#         lon, lat = (x_val[while_index], y_val[while_index])  # test coordinates
+#         xpt, ypt = map_projection(lon, lat)  # convert to projection map
+#         value = map_projection.is_land(xpt, ypt)  # Checking if point is on land or not
+#         if value:
+#             x_val.pop(while_index), y_val.pop(while_index), value_distance.pop(while_index)
+#         else:
+#             min_pos = value_distance.index(min(value_distance))
+#             return x_val[min_pos], y_val[min_pos]
 
 
 # For chromosome computation
@@ -178,9 +178,9 @@ def gene_computation():
         for idx in range(len(obs_x)):
             for idy in range(len(obs_y)):
 
-                lon, lat = (start_x[i], start_y[i])  # test coordinates
-                xpt, ypt = map_projection(lon, lat)  # convert to projection map
-                value = map_projection.is_land(xpt, ypt)  # Checking if point is on land or not
+                # lon, lat = (start_x[i], start_y[i])  # test coordinates
+                # xpt, ypt = map_projection(lon, lat)  # convert to projection map
+                # value = map_projection.is_land(xpt, ypt)  # Checking if point is on land or not
 
                 # Check coordinates from chromosome and obstacle, if same change the chromosome coordinate.
                 if start_x[i] == obs_x[idy] and start_y[i] == obs_y[idy]:
@@ -191,9 +191,9 @@ def gene_computation():
                     else:
                         start_y[i] = start_y[i] + (0.5 * random_val[0])
                         print("Strike with Obs(Y). ", start_y[i], start_y[i])
-                elif value:
-                    start_x[i], start_y[i] = avoid_land(start_x[i], start_y[i])
-                    print("Strike with land.", start_x[i], start_y[i], idy)
+                # elif value:
+                #     start_x[i], start_y[i] = avoid_land(start_x[i], start_y[i])
+                #     print("Strike with land.", start_x[i], start_y[i], idy)
                 else:
                     pass
         # If chromosome's value is bigger then end value, then reroute it towards end point.

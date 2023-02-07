@@ -1,3 +1,4 @@
+import timeit
 from Algorithm.pathfinder import *
 import keyboard
 import numpy as np
@@ -14,6 +15,7 @@ val_gen = 0
 
 # Plot lines in RT
 def plot_grid(dummy):
+    start = timeit.default_timer()
     global val_gen
     # To clear previous value in the list
     for_multi_chromosome_x.clear()
@@ -54,8 +56,8 @@ def plot_grid(dummy):
     for_multi_chromosome_x.extend(grid_child_x)
     for_multi_chromosome_y.extend(grid_child_y)
 
-    print(for_multi_chromosome_x)
-    print(for_multi_chromosome_y)
+    # print(for_multi_chromosome_x)
+    # print(for_multi_chromosome_y)
 
     # Clearing the current figure state
     plt.clf()
@@ -92,7 +94,7 @@ def plot_grid(dummy):
                         for_temp_obs_y,
                         label="Obstacles",
                         color=['green'],
-                        s=5)
+                        s=3)
 
     # Removing the newly added obstacles
     del obs_x[-number_of_obstacles:]
@@ -135,11 +137,16 @@ def plot_grid(dummy):
     # Exit the loop
     keyboard.add_hotkey('q', lambda: quit())
 
+    stop = timeit.default_timer()
+    execution_time = stop - start
+    print("Program Executed in " + str(execution_time))  # It returns time in seconds
+
 
 # # THE MAIN PART
 anime = animation.FuncAnimation(plt.gcf(),
                                 plot_grid,
                                 interval=1000,
                                 frames=5)
+
 plt.tight_layout()
 plt.show()
