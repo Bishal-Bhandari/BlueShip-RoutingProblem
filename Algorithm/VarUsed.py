@@ -14,7 +14,7 @@ obs_x = [-18.957707699807273, -19.957707699807273, -57.38221644849669, -58.38221
 obs_y = [34.999678, 34.999678, 34.999678, 34.999678, 32.56, 35, 34.999678, 31.999678, 32.999678, 33.999678, 34.999678,
          34.999678, 34.999678, 34.63786600808995]
 # Number of new randomly generated obstacles
-number_of_obstacles = 20
+number_of_obstacles = 50
 # plotting the points for chromosomes
 hold_x = []
 hold_y = []
@@ -22,7 +22,7 @@ hold_y = []
 for_multi_chromosome_x = []
 for_multi_chromosome_y = []
 # Value for iteration
-val_iteration = 30
+val_iteration = 2
 # For global lowest value of distance
 global_fittest_val = []
 # Number of chromosome to select from pool
@@ -31,3 +31,7 @@ Fitness_selection_val = 1
 End_loop_limit = 150
 # Added value from neighbourhood search point
 Graph_plot_value = 0.5
+# Average speed of ship per hrs in km
+Ship_Speed = 37
+# Average fuel consumption per day in Liters
+Fuel_used = 238481

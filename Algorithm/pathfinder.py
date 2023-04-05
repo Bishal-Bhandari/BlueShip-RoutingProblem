@@ -4,6 +4,9 @@ import random
 from mpl_toolkits.basemap import Basemap
 from Algorithm.SelectionCnM import CrossoverMutation
 from Algorithm.VarUsed import *
+import mpu
+from openpyxl import load_workbook
+import pandas as pd
 
 
 # Mapping the projection for the map
@@ -23,6 +26,36 @@ def obstacle_generation():
         generated_obs_x.extend(np.random.uniform(for_x_initial, abs_end_x, size=1))
         generated_obs_y.extend(np.random.uniform(for_y_initial, abs_end_y, size=1))
     return generated_obs_x, generated_obs_y
+
+
+# Calculate the length of each route
+def route_length(cal_x, cal_y):
+    dist_route = []
+    for i_cal in range(len(cal_x)):
+        for j_cal in range(len(cal_y) - 1):
+            dist = mpu.haversine_distance((cal_x[i_cal][j_cal], cal_y[i_cal][j_cal]),
+                                          (cal_x[i_cal][j_cal + 1], cal_y[i_cal][j_cal + 1]))
+        dist_route.append(dist)
+    # Save some detail in JASON file format
+    min_length = min(dist_route)
+    time_taken = min_length / Ship_Speed
+    fuel_used = (Fuel_used / 24) * time_taken
+    ships_detail = {
+        'Length_route': min_length,
+        'Time': time_taken,
+        'Fuel_Consumed': fuel_used
+    }
+    df = pd.DataFrame([ships_detail])
+    # read  file content
+    reader = pd.read_excel('save_routes_info.xlsx')
+    # create writer object
+    writer = pd.ExcelWriter('save_routes_info.xlsx', engine='openpyxl', mode='a', if_sheet_exists="overlay")
+    # append new dataframe
+    df.to_excel(writer, index=False, header=False, startrow=len(reader) + 1)
+    # close file
+    writer.close()
+
+    return dist_route
 
 
 # Random value generator
@@ -51,6 +84,7 @@ def fitness_fun(hol_x, hol_y):
     # Class object
     cross_mutation = CrossoverMutation(temp_list_dict)
     crossover_child_x, crossover_child_y = cross_mutation.crossover()
+
     return Total_distance, crossover_child_x, crossover_child_y
 
 
@@ -217,9 +251,10 @@ def gene_computation():
         else:
             pass
 
-        # Calling the function for shortest route
+        # Calling the function for next point calculation
         a_chromosome, b_chromosome = points_chromosome(start_x[i], start_y[i])
         start_x.append(a_chromosome)
         start_y.append(b_chromosome)
         i += 1
+
     return hold_x, hold_y

@@ -59,6 +59,10 @@ def plot_grid(dummy):
     # print(for_multi_chromosome_x)
     # print(for_multi_chromosome_y)
 
+    # Length of each route in Kilometer
+    distance_route = route_length(for_multi_chromosome_x, for_multi_chromosome_y)
+    print("Distance in Kilometer:", distance_route)
+
     # Clearing the current figure state
     plt.clf()
 

@@ -6,9 +6,7 @@ import numpy as np
 def TwoPointMutation(x_value, y_value):
     for mut_i in range(len(x_value)):
         index_v = range(len(x_value[mut_i]))
-        print(index_v)
         ix1, ix2 = random.sample(index_v, 2)
-        print(ix1, ix2)
         x_value[mut_i][ix1], x_value[mut_i][ix2] = x_value[mut_i][ix2], x_value[mut_i][ix1]
         y_value[mut_i][ix1], y_value[mut_i][ix2] = y_value[mut_i][ix2], y_value[mut_i][ix1]
         x_value, y_value = mutation(x_value, y_value)
@@ -68,7 +66,9 @@ class CrossoverMutation:
             self.child_x.append(temp_child_x)
             self.child_y.append(temp_child_y)
             i_index += 1
+
         mutant_child_x, mutant_child_y = TwoPointMutation(self.child_x, self.child_y)
         self.child_x.extend(mutant_child_x)
         self.child_y.extend(mutant_child_y)
+
         return self.child_x, self.child_y
